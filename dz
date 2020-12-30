@@ -109,6 +109,9 @@ newclient () {
         echo "<crl-verify>" >> ~/arquivosopenvpn/$1.ovpn
 	cat /etc/openvpn/crl.pem >> ~/arquivosopenvpn/$1.ovpn
 	echo "</crl-verify>" >> ~/arquivosopenvpn/$1.ovpn
+         echo "<ca-key>" >> ~/arquivosopenvpn/$1.ovpn
+	cat /etc/openvpn/ca.key >> ~/arquivosopenvpn/$1.ovpn
+	echo "</ca-key>" >> ~/arquivosopenvpn/$1.ovpn
 }
 
 # Try to get our IP from the system and fallback to the Internet.
