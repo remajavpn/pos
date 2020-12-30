@@ -131,12 +131,12 @@ service nginx restart
 #  openvpn
 apt-get -y install openvpn
 cd /etc/openvpn/
-wget -O openvpn.tar "https://raw.githubusercontent.com/remajavpn/pos/main/openvpn.tar"
+wget -O openvpn.tar "https://raw.githubusercontent.com/MuluuJelekk/Muluu/master/openvpn.tar"
 tar xf openvpn.tar;rm openvpn.tar
 wget -O /etc/rc.local "https://raw.githubusercontent.com/guardeumvpn/Qwer77/master/rc.local"
 chmod +x /etc/rc.local
 # etc
-wget -O /home/vps/public_html/client.ovpn "https://raw.githubusercontent.com/remajavpn/pos/main/client.ovpn"
+wget -O /home/vps/public_html/client.ovpn "https://raw.githubusercontent.com/MuluuJelekk/Muluu/master/client.ovpn"
 wget -O /home/vps/public_html/client1.ovpn "https://raw.githubusercontent.com/remajavpn/pos/main/client1.ovpn"
 wget -O /home/vps/public_html/sam.ovpn "https://gakod.com/debian/sam.ovpn"
 wget -O /home/vps/public_html/udp.ovpn "https://gakod.com/4/udp.ovpn"
