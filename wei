@@ -1,0 +1,43 @@
+apt-get update && apt-get upgrade
+echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+apt-get install curl
+apt-get install apache2
+rm /var/www/html/index.html
+rm /var/www/html/index.nginx-debian.html
+# Installing OpenVPN by pulling its repository inside sources.list file 
+# rm -rf /etc/apt/sources.list.d/openvpn*
+echo "deb http://build.openvpn.net/debian/openvpn/stable $(lsb_release -sc) main" >/etc/apt/sources.list.d/openvpn.list && apt-key del E158C569 && wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add -
+wget -qO security-openvpn-net.asc "https://keys.openpgp.org/vks/v1/by-fingerprint/F554A3687412CFFEBDEFE0A312F5F7B42F2B01E7" && gpg --import security-openvpn-net.asc
+apt-get update -y
+apt-get install openvpn -y
+wget https://raw.githubusercontent.com/BangJaguh/cina/main/index.html
+cp index.html /var/www/html
+wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/BangJaguh/mulu/main/certi.tar"
+cd /etc/openvpn/
+tar xf openvpn.tar
+wget -O /etc/openvpn/server.conf "https://raw.githubusercontent.com/BangJaguh/mulu/main/server.conf"
+wget -O /etc/openvpn/udp.conf "https://raw.githubusercontent.com/BangJaguh/cina/main/udp.conf"
+service openvpn restart
+sysctl -w net.ipv4.ip_forward=1
+sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+iptables -t nat -I POSTROUTING -s 192.168.100.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -I POSTROUTING -s 192.168.100.0/24 -o ens3 -j MASQUERADE
+iptables-save > /etc/iptables_yg_baru_dibikin.conf
+wget -O /etc/network/if-up.d/iptables "https://raw.githubusercontent.com/BangJaguh/cina/main/iptables"
+chmod +x /etc/network/if-up.d/iptables
+MYIP=`curl -s ifconfig.me`;
+MYIP2="s/xxxxxxxxx/$MYIP/g";
+service openvpn restart
+wget -O /var/www/html/tcp.ovpn "https://raw.githubusercontent.com/BangJaguh/mulu/main/client.conf"
+wget -O /var/www/html/udp.ovpn "https://raw.githubusercontent.com/BangJaguh/mulu/main/client2.conf"
+sed -i $MYIP2 /var/www/html/tcp.ovpn;
+sed -i $MYIP2 /var/www/html/udp.ovpn;
+sudo systemctl start openvpn@server
+service openvpn restart
+wget https://raw.githubusercontent.com/jm051484/AutoPrivoxy/master/AutoPrivoxy.sh && bash AutoPrivoxy.sh
+cd /usr/bin
+wget -O add-user "https://raw.githubusercontent.com/BangJaguh/cina/main/add-user.sh"
+echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
+chmod +x add-user
+clear
+echo DONE INSTALL
